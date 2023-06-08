@@ -7,6 +7,9 @@ export interface IsUniqueProps {
 export interface BuscarUmProps {
     query: any;
 }
+export interface DeletarProps {
+    id: string;
+}
 
 export interface Repository<T> {
     inserir(item: T): Promise<T>;
@@ -14,4 +17,5 @@ export interface Repository<T> {
     buscarUm(props: BuscarUmProps): Promise<T | null>;
     listar(): Promise<T[]>;
     isUnique(props: IsUniqueProps): Promise<boolean>;
+    deletar(props: DeletarProps): Promise<boolean>;
 }

@@ -16,7 +16,7 @@ export class ItemSeeder implements Seeder {
   async seed(): Promise<number> {
     try {
       const data = await this.itensDataReader.read({
-        path: "./domain/pedido/data/itens.json",
+        path: "./domain/item/data/itens.json",
       });
       await Promise.all(
         data.map(async (item) => {
@@ -24,10 +24,9 @@ export class ItemSeeder implements Seeder {
         })
       );
 
-      console.log(
-        `ITENS SEEDER SEEDED ${(await this.repository.listar()).length} records`
-      );
       return data.length;
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   }
 }

@@ -1,5 +1,6 @@
 import {
   BuscarUmProps,
+  DeletarProps,
   IsUniqueProps,
   Repository,
 } from "../../../shared/ports/repository";
@@ -11,7 +12,14 @@ export class ClienteMemoriaRepository implements Repository<Cliente> {
   private static clientes: Cliente[] = [];
 
   async listar(): Promise<Cliente[]> {
-    return ClienteMemoriaRepository.clientes;
+    return ClienteMemoriaRepository.clientes.filter(i => !i.deletedAt);
+  }
+
+  async deletar({ id }: DeletarProps): Promise<boolean> {
+    const item = await this.buscarUm({ query: { id } });
+    if (!item) throw new RegistroInexistenteException({ campo: "id" });
+    item.deletedAt = new Date();
+    return true;
   }
 
   async inserir(item: Cliente): Promise<Cliente> {

@@ -24,14 +24,9 @@ export class ClienteSeeder implements Seeder {
         })
       );
 
-      console.log(
-        `CLIENTES SEEDER SEEDED ${
-          (await this.repository.listar()).length
-        } records`
-      );
       return data.length;
     } catch (error) {
-        console.log("🚀 ~ file: cliente.seeder.ts:34 ~ ClienteSeeder ~ seed ~ error:", error)
+      throw error;
     }
   }
 }
