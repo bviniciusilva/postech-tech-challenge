@@ -18,9 +18,9 @@ export class CadastrarClienteUseCase implements UseCase<CadastrarClienteDto, Out
     async execute(props: CadastrarClienteDto): Promise<OutputProps> {
         if(!props.cpf && !props.email && !props.nome) throw new DtoValidationException(['Ao menos um dos campos é obrigatório']);
         
-        const cliente = new Cliente(props);
+        const item = new Cliente(props);
 
-        return await this.repository.inserir(cliente);
+        return await this.repository.criar({item});
     }
 
 }

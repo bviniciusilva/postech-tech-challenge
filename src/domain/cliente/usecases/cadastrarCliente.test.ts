@@ -1,7 +1,7 @@
 import { JsonDataReader } from "@shared/adapters/jsonDataReader";
 import { ClienteProps } from "@domain/cliente/entities/cliente";
-import { ClienteMemoriaRepository } from "src/infra/database/inMemory/cliente/repositories/clientesMemoria.repository";
-import { ClienteSeeder } from "@domain/cliente/seeders/cliente.seeder";
+import { ClienteMemoriaRepository } from "@infra/database/memory/cliente/repositories/clientesMemoria.repository";
+import { ClienteSeeder } from "@infra/database/memory/cliente/seeders/cliente.seeder";
 
 test('Deve cadastrar um cliente', async function () {
     const clientesRepository = new ClienteMemoriaRepository();

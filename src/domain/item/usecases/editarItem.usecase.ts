@@ -15,12 +15,12 @@ export class EditarItemUseCase
 
   async execute(props: EditarItemDto): Promise<OutputProps> {
     const item = await this.repository.buscarUm({
-      query: { id: props.id },
+      query: { _id: props._id },
     });
     Object.entries(props).forEach(([key, value]) => {
       item[key] = value;
     })
     if(!item) throw new RegistroInexistenteException({});
-    return await this.repository.editar(item);
+    return await this.repository.editar({_id: props._id, item});
   }
 }

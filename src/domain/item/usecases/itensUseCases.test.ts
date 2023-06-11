@@ -1,11 +1,11 @@
 import { JsonDataReader } from "@shared/adapters/jsonDataReader";
 import { ItemProps } from "@domain/item/entities/item";
-import { ItemMemoriaRepository } from "src/infra/database/memory/item/repositories/itemMemoria.repository";
-import { ItemSeeder } from "src/infra/database/memory/item/seeders/item.seeder";
+import { ItemMemoriaRepository } from "@infra/database/memory/item/repositories/itemMemoria.repository";
+import { ItemSeeder } from "@infra/database/memory/item/seeders/item.seeder";
 import { EditarItemUseCase } from "@domain/item/usecases/editarItem.usecase";
 
 const itensDataReader = new JsonDataReader<ItemProps[]>();
-const itensRepository = new ItemMemoriaRepository();
+const itensRepository = ItemMemoriaRepository.Instance;
 
 describe('Testando itens',()=>{
   test("Deve cadastrar um item", async function () {
@@ -20,7 +20,7 @@ describe('Testando itens',()=>{
     const itens = await itensRepository.listar();
     if (itens[0]) {
       const newItemProps: ItemProps = {
-        id: itens[0].id,
+        _id: itens[0]._id,
         nome: "Big Mac",
         tipo: "lanche",
         preco: 39.9,
@@ -37,10 +37,9 @@ describe('Testando itens',()=>{
   });
   
   test("Deve deletar um item", async function () {
-    const itensRepository = new ItemMemoriaRepository();
     const initialLength = (await itensRepository.listar())?.length;
     const item = (await itensRepository.listar())[0];
-    const output = await itensRepository.deletar({ id: item.id });
+    const output = await itensRepository.deletar({ _id: item._id });
     const endLength = (await itensRepository.listar())?.length;
     expect(output).toBeTruthy();
     expect(endLength).toBe(initialLength - 1);

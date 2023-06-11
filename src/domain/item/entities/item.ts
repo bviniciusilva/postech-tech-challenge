@@ -9,7 +9,7 @@ export const medidasItem = ["porcao" , "litro" , "unidade"]
 export type MedidaItem = typeof medidasItem[number];
 
 export interface ItemProps {
-  id?: string;
+  _id?: string;
   tipo: TipoItem;
   medida: MedidaItem;
   nome: string;

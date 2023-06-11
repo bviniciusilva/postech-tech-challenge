@@ -17,6 +17,6 @@ export class CadastrarItemUseCase
 
     const item = new Item(props);
 
-    return await this.repository.inserir(item);
+    return await this.repository.criar({item});
   }
 }

@@ -11,7 +11,12 @@ import { Cliente } from "@domain/cliente/entities/cliente"
 import { RegistroInexistenteException } from "@shared/exceptions/registroInexistente.exception"
 
 export class ClienteMemoriaRepository implements Repository<Cliente> {
-  private static clientes: Cliente[] = []
+  private static instance: ClienteMemoriaRepository
+  static clientes: Cliente[] = []
+
+  public static get Instance() {
+    return this.instance || (this.instance = new this())
+  }
 
   async listar(): Promise<Cliente[]> {
     return ClienteMemoriaRepository.clientes.filter((i) => !i.deletedAt)
@@ -57,16 +62,19 @@ export class ClienteMemoriaRepository implements Repository<Cliente> {
       })
     const cliente = await this.buscarUm({
       query: {
-        id: item.id,
+        id: item._id,
       },
     })
-    if (item.id && cliente) throw new RegistroExistenteException({})
+    if (item._id && cliente) throw new RegistroExistenteException({})
+    if (!item._id) item.generateId()
+    item.createdAt = new Date()
+    item.updatedAt = new Date()
     ClienteMemoriaRepository.clientes.push(item)
-    return item
+    return item;
   }
 
   async editar({ _id, item }: EditarProps<Cliente>): Promise<Cliente> {
-    const itemIndex = ClienteMemoriaRepository.clientes.findIndex((_item) => _item.id == item.id)
+    const itemIndex = ClienteMemoriaRepository.clientes.findIndex((_item) => _item._id == item._id)
     if (itemIndex < 0) throw new RegistroInexistenteException({})
     let cliente = ClienteMemoriaRepository.clientes[itemIndex]
     Object.entries(item).forEach(([key, value]) => {
@@ -96,7 +104,7 @@ export class ClienteMemoriaRepository implements Repository<Cliente> {
         item[props.prop] !== undefined &&
         // @ts-ignore
         item[props.prop] == props.value &&
-        item.id != props.ignoreId
+        item._id != props.ignoreId
       )
         return false
     }

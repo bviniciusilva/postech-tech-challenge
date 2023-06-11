@@ -33,6 +33,6 @@ export interface Repository<T> {
     editar(props: EditarProps<T>): Promise<T>;
     buscarUm(props: BuscarUmProps): Promise<T | null>;
     listar(): Promise<T[]>;
-    isUnique(props: IsUniqueProps | IsUniqueManyProps): Promise<boolean>;
+    isUnique?(props: IsUniqueProps | IsUniqueManyProps): Promise<boolean>;
     deletar(props: DeletarProps): Promise<boolean>;
 }
