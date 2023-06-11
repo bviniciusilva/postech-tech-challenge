@@ -7,6 +7,7 @@ const ClienteSchema = new Schema<Cliente>(
     nome: { type: String, required: false },
     email: { type: String, required: false },
     cpf: { type: String, required: false },
+    deletedAt: { type: Date, required: false, default: null },
   },
   { timestamps: true }
 );
