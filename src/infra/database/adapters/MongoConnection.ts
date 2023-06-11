@@ -1,5 +1,5 @@
-import Connection, { ConnectionProps } from "@infra/database/ports/Connection";
 import mongoose, { MongooseOptions, mongo } from "mongoose";
+import Connection, { ConnectionProps } from "src/shared/ports/connection";
 
 export default class MongoConnection implements Connection {
   connection: typeof mongoose;
