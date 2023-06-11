@@ -1,7 +1,7 @@
 import { JsonDataReader } from "@shared/adapters/jsonDataReader";
 import { ItemProps } from "@domain/item/entities/item";
-import { ItemMemoriaRepository } from "@domain/item/repositories/itemMemoria.repository";
-import { ItemSeeder } from "@domain/item/seeders/item.seeder";
+import { ItemMemoriaRepository } from "src/infra/database/memory/item/repositories/itemMemoria.repository";
+import { ItemSeeder } from "src/infra/database/memory/item/seeders/item.seeder";
 import { EditarItemUseCase } from "@domain/item/usecases/editarItem.usecase";
 
 const itensDataReader = new JsonDataReader<ItemProps[]>();

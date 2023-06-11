@@ -1,6 +1,5 @@
 import { Repository } from "@shared/ports/repository"
 import { Cliente, ClienteProps } from "@domain/cliente/entities/cliente"
-import { RegistroInexistenteException } from "src/shared/exceptions/registroInexistente.exception"
 
 export class ClienteController {
   constructor(private readonly repository: Repository<Cliente>) {}
@@ -28,7 +27,6 @@ export class ClienteController {
   }
 
   async deletar(_id: string) {
-    console.log("🚀 ~ file: ClienteController.ts:31 ~ ClienteController ~ deletar ~ _id:", _id)
     return this.repository.deletar({ _id })
   }
 }

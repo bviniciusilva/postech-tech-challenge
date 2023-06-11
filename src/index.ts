@@ -2,8 +2,8 @@ import { ClienteProps } from "@domain/cliente/entities/cliente";
 import { ClienteMemoriaRepository } from "@infra/database/memory/cliente/repositories/clientesMemoria.repository";
 import { ClienteSeeder } from "@infra/database/memory/cliente/seeders/cliente.seeder";
 import { ItemProps } from "@domain/item/entities/item";
-import { ItemMemoriaRepository } from "@domain/item/repositories/itemMemoria.repository";
-import { ItemSeeder } from "@domain/item/seeders/item.seeder";
+import { ItemMemoriaRepository } from "src/infra/database/memory/item/repositories/itemMemoria.repository";
+import { ItemSeeder } from "src/infra/database/memory/item/seeders/item.seeder";
 import { JsonDataReader } from "@shared/adapters/jsonDataReader";
 import MongoConnection from "src/infra/database/mongodb/adapters/MongoConnection";
 import { ClienteMongoRepository } from "./infra/database/mongodb/cliente/repositories/clientesMongo.repository";
@@ -35,7 +35,7 @@ async function bootstrap() {
     // console.log(`SEEDING FINISHED...`);
     console.timeEnd('seeding');
   } catch (error) {
-    console.log("🚀 ~ file: index.ts:25 ~ bootstrap ~ error:", error);
+    console.log(error);
   }
 }
 

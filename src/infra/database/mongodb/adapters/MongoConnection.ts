@@ -36,7 +36,6 @@ export default class MongoConnection implements Connection {
           resolve(true);
         })
         .catch((err) => {
-          console.log(err);
           reject(err);
         });
     });

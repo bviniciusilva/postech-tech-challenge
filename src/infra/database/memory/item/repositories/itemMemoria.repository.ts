@@ -1,6 +1,8 @@
 import {
   BuscarUmProps,
+  CriarProps,
   DeletarProps,
+  EditarProps,
   IsUniqueProps,
   Repository,
 } from "@shared/ports/repository";
@@ -15,19 +17,19 @@ export class ItemMemoriaRepository implements Repository<Item> {
     return ItemMemoriaRepository.itens.filter(i => !i.deletedAt);
   }
 
-  async deletar({ id }: DeletarProps): Promise<boolean> {
-    const item = await this.buscarUm({ query: { id } });
+  async deletar({ _id }: DeletarProps): Promise<boolean> {
+    const item = await this.buscarUm({ query: { _id } });
     if (!item) throw new RegistroInexistenteException({ campo: "id" });
     item.deletedAt = new Date();
     return true;
   }
 
-  async inserir(item: Item): Promise<Item> {
+  async criar({ item }: CriarProps<Item>): Promise<Item> {
     if (
-      item.id &&
+      item._id &&
       (await this.buscarUm({
         query: {
-          id: item.id,
+          _id: item._id,
         },
       }))
     )
@@ -38,9 +40,9 @@ export class ItemMemoriaRepository implements Repository<Item> {
     return item;
   }
 
-  async editar(item: Item): Promise<Item> {
+  async editar({ _id, item }: EditarProps<Item>): Promise<Item> {
     const itemIndex = ItemMemoriaRepository.itens.findIndex(
-      (_item) => _item.id == item.id
+      (_item) => _item._id == item._id
     );
     if (itemIndex < 0) throw new RegistroInexistenteException({});
     let _item = ItemMemoriaRepository.itens[itemIndex];
@@ -68,7 +70,7 @@ export class ItemMemoriaRepository implements Repository<Item> {
     for (let index = 0; index < ItemMemoriaRepository.itens.length; index++) {
       const item = ItemMemoriaRepository.itens[index];
       // @ts-ignore
-      if (item[props.prop] == props.value && item.id != props.ignoreId)
+      if (item[props.prop] == props.value && item._id != props.ignoreId)
         return false;
     }
     return true;

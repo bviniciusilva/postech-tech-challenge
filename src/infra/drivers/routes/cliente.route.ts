@@ -17,11 +17,7 @@ router.get("/:id", (req: express.Request, res: express.Response, next: express.N
 router.post("/", ClienteDTO.validate, (req: express.Request, res: express.Response, next: express.NextFunction) => {
   const body = req.body
   return response(
-    apiController.clienteController.criar({
-      cpf: body.cpf,
-      email: body.email,
-      nome: body.nome,
-    }),
+    apiController.clienteController.criar(body),
     res,
     next
   )
@@ -30,11 +26,7 @@ router.post("/", ClienteDTO.validate, (req: express.Request, res: express.Respon
 router.patch("/:id", ClienteDTO.validate, (req: express.Request, res: express.Response, next: express.NextFunction) => {
   const body = req.body
   return response(
-    apiController.clienteController.editar(req.params.id, {
-      cpf: body.cpf,
-      email: body.email,
-      nome: body.nome,
-    }),
+    apiController.clienteController.editar(req.params.id, body),
     res,
     next
   )

@@ -1,6 +1,14 @@
-export interface IsUniqueProps {
+export interface FindUniqueProps {
     prop: string;
     value: string;
+}
+
+export interface IsUniqueProps extends FindUniqueProps {
+    ignoreId?: string;
+}
+
+export interface IsUniqueManyProps {
+    props: FindUniqueProps[];
     ignoreId?: string;
 }
 
@@ -25,6 +33,6 @@ export interface Repository<T> {
     editar(props: EditarProps<T>): Promise<T>;
     buscarUm(props: BuscarUmProps): Promise<T | null>;
     listar(): Promise<T[]>;
-    isUnique(props: IsUniqueProps): Promise<boolean>;
+    isUnique(props: IsUniqueProps | IsUniqueManyProps): Promise<boolean>;
     deletar(props: DeletarProps): Promise<boolean>;
 }
