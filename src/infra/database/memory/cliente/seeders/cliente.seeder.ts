@@ -20,7 +20,10 @@ export class ClienteSeeder implements Seeder {
       });
       await Promise.all(
         data.map(async (cliente) => {
-          await this.cadastrarClienteUseCase.execute(cliente);
+          try {
+            await this.cadastrarClienteUseCase.execute(cliente);
+          } catch (error) {
+          }
         })
       );
 

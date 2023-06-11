@@ -28,7 +28,6 @@ async function bootstrap() {
       database: "projetos",
     });
     await client.connect();
-    console.log(client.connection.modelNames())
     console.time('seeding');
     console.log("SEEDING STARTED...");
     await clientesSeeder.seed();

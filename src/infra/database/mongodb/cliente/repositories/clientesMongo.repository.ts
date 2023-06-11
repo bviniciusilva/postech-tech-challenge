@@ -56,16 +56,16 @@ export class ClienteMongoRepository implements Repository<Cliente> {
       throw new RegistroExistenteException({
         mensagem: `Já existe um registro com nome ${item.nome}`,
       });
-    const cliente = await this.buscarUm({
+
+    const query = item._id && {
       query: {
-        id: item.id,
+        _id: new mongoose.Types.ObjectId(item._id),
       },
-    });
-    if (item.id && cliente) throw new RegistroExistenteException({});
-    // ClienteMemoriaRepository.clientes.push(item);
-    item.id = new mongoose.Types.ObjectId();
+    };
+    const cliente = await this.buscarUm({ query });
+    if (item._id && cliente) throw new RegistroExistenteException({});
+    item._id = new mongoose.Types.ObjectId();
     const _item = await ClienteModel.create(item);
-    console.log("🚀 ~ file: clientesMongo.repository.ts:66 ~ ClienteMongoRepository ~ inserir ~ _item:", _item, item)
     // @ts-ignore
     return _item;
   }
@@ -84,35 +84,16 @@ export class ClienteMongoRepository implements Repository<Cliente> {
   }
 
   async buscarUm(props: BuscarUmProps): Promise<Cliente | null> {
-    // return (
-    //   ClienteMemoriaRepository.clientes.find((_item) => {
-    //     let hasValue = true;
-    //     Object.entries(props.query).forEach(([key, value]) => {
-    //       // @ts-ignore
-    //       if (_item[key] !== undefined && _item[key] != value) hasValue = false;
-    //     });
-    //     return hasValue;
-    //   }) ?? null
-    // );
-    return ClienteModel.findOne(props);
+    return ClienteModel.findOne(props.query);
   }
 
   async isUnique(props: IsUniqueProps): Promise<boolean> {
-    // for (
-    //   let index = 0;
-    //   index < ClienteMemoriaRepository.clientes.length;
-    //   index++
-    // ) {
-    //   const item = ClienteMemoriaRepository.clientes[index];
-    //   if (
-    //     // @ts-ignore
-    //     item[props.prop] !== undefined &&
-    //     // @ts-ignore
-    //     item[props.prop] == props.value &&
-    //     item.id != props.ignoreId
-    //   )
-    //     return false;
-    // }
-    return true;
+    let query: BuscarUmProps = {
+      query: {
+        [props.prop]: props.value,
+      },
+    };
+    const item = await this.buscarUm(query);
+    return item === null;
   }
 }

@@ -4,7 +4,7 @@ import {v4 as uuid} from 'uuid';
 import { DefaultClass } from "@shared/types/defaultClass";
 
 export interface ClienteProps {
-  id?: any;
+  _id?: any;
   nome?: string;
   email?: string;
   cpf?: string;
@@ -14,7 +14,7 @@ export interface ClienteProps {
 }
 
 export class Cliente extends DefaultClass {
-  id?: any;
+  _id?: any;
   nome?: string;
   email?: string;
   cpf?: string;
@@ -24,11 +24,15 @@ export class Cliente extends DefaultClass {
 
   constructor(props: ClienteProps) {
     super();
-    if(!props.id) {
-      props.id = uuid();
-    }
     Object.assign(this, props);
   }
+  
+  generateId() {
+    if(!this._id) {
+      this._id = uuid();
+    }
+  }
+
 
   // get id(): any {
   //   return this.props.id ?? "";
