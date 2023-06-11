@@ -1,13 +1,23 @@
 import { Repository } from "@shared/ports/repository";
-import { Cliente } from "@domain/cliente/entities/cliente";
+import { Cliente, ClienteProps } from "@domain/cliente/entities/cliente";
 
 export class ClienteController {
-    constructor(
-        private readonly repository: Repository<Cliente>
-    ) {}
+  constructor(private readonly repository: Repository<Cliente>) {}
 
-    async listar() {
-        console.log("🚀 ~ file: ClienteController.ts:10 ~ ClienteController ~ listar ~ listar:")
-        return this.repository.listar();
-    }
+  async listar() {
+    return this.repository.listar();
+  }
+
+  async buscarUm(_id: string) {
+    return this.repository.buscarUm({
+      query: {
+        _id,
+      },
+    });
+  }
+
+  async criar(body: ClienteProps) {
+    const cliente = new Cliente(body);
+    return this.repository.inserir(cliente);
+  }
 }

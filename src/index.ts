@@ -5,7 +5,7 @@ import { ItemProps } from "@domain/item/entities/item";
 import { ItemMemoriaRepository } from "@domain/item/repositories/itemMemoria.repository";
 import { ItemSeeder } from "@domain/item/seeders/item.seeder";
 import { JsonDataReader } from "@shared/adapters/jsonDataReader";
-import MongoConnection from "@infra/database/adapters/MongoConnection";
+import MongoConnection from "src/infra/database/mongodb/adapters/MongoConnection";
 import { ClienteMongoRepository } from "./infra/database/mongodb/cliente/repositories/clientesMongo.repository";
 
 // CLIENTES ===============================================

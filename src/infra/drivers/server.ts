@@ -2,7 +2,7 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import config from "@shared/config";
 import routes from "./routes";
-import MongoConnection from "../database/adapters/MongoConnection";
+import MongoConnection from "../database/mongodb/adapters/MongoConnection";
 
 const PORT = config.PORT || 3000;
 const app = express();

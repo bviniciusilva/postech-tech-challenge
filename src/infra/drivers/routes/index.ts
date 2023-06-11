@@ -2,7 +2,7 @@ import * as express from "express";
 const router = express.Router();
 import clienteRoutes from "./cliente.route";
 
-router.use(clienteRoutes);
+router.use('/clientes',clienteRoutes);
 
 // 404
 router.use(function (req, res) {
