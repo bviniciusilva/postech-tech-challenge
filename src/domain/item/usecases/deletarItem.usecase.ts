@@ -5,7 +5,7 @@ import { Item, ItemProps } from "@domain/item/entities/item";
 import { RegistroInexistenteException } from "@shared/exceptions/registroInexistente.exception";
 
 interface DeletarItemDto {
-  id: string;
+  _id: string;
 }
 
 type OutputProps = boolean;
@@ -15,7 +15,7 @@ export class DeletarItemUseCase
 {
   constructor(private readonly repository: Repository<Item>) {}
 
-  async execute({ id }: DeletarItemDto): Promise<OutputProps> {
-    return await this.repository.deletar({ id });
+  async execute({ _id }: DeletarItemDto): Promise<OutputProps> {
+    return await this.repository.deletar({ _id });
   }
 }

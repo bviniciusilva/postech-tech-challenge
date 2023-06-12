@@ -7,7 +7,7 @@ const router = express.Router()
 const apiController = ApiController.Instance
 
 router.get("/", (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  return response(apiController.pedidoController.listar(), res, next)
+  return response(apiController.pedidoController.listar(req.query), res, next)
 })
 
 router.get("/:id", (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -23,17 +23,17 @@ router.post("/", PedidoDTO.validate, (req: express.Request, res: express.Respons
   )
 })
 
-// router.patch("/:id", PedidoDTO.validate, (req: express.Request, res: express.Response, next: express.NextFunction) => {
-//   const body = req.body
-//   return response(
-//     apiController.pedidoController.editar(req.params.id, body),
-//     res,
-//     next
-//   )
-// })
+router.patch("/:id", PedidoDTO.validate, (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  const body = req.body
+  return response(
+    apiController.pedidoController.editar({_id: req.params.id, props: body}),
+    res,
+    next
+  )
+})
 
-// router.delete("/:id", (req: express.Request, res: express.Response, next: express.NextFunction) => {
-//   return response(apiController.pedidoController.deletar(req.params.id), res, next)
-// })
+router.delete("/:id", (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  return response(apiController.pedidoController.deletar(req.params.id), res, next)
+})
 
 export default router

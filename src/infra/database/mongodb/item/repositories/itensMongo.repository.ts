@@ -16,8 +16,9 @@ import mongoose from "mongoose"
 export class ItemMongoRepository implements Repository<Item> {
   constructor() {}
 
-  async listar(): Promise<Item[]> {
-    return ItemModel.find({ deletedAt: null })
+  async listar(queryProps?: any): Promise<Item[]> {
+    if(queryProps.deletedAt) delete queryProps.deletedAt
+    return ItemModel.find({ deletedAt: null, ...queryProps })
   }
 
   async deletar({ _id }: DeletarProps): Promise<boolean> {

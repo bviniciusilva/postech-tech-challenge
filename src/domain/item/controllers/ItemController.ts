@@ -8,8 +8,8 @@ export class ItemController {
     this.cadastrarUseCase = new EditarItemUseCase(this.repository)
   }
 
-  async listar() {
-    return this.repository.listar()
+  async listar(queryProps?: Object) {
+    return this.repository.listar(queryProps)
   }
 
   async buscarUm(_id: string) {

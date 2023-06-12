@@ -30,7 +30,7 @@ router.post("/", ClienteDTO.validate, (req: express.Request, res: express.Respon
 router.patch("/:id", ClienteDTO.validate, (req: express.Request, res: express.Response, next: express.NextFunction) => {
   const body = req.body
   return response(
-    apiController.clienteController.editar(req.params.id, body),
+    apiController.clienteController.editar({_id: req.params.id, props: body}),
     res,
     next
   )

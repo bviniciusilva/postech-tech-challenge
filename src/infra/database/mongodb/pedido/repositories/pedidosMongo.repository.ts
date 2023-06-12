@@ -40,8 +40,9 @@ export class PedidoMongoRepository implements Repository<Pedido> {
     return
   }
 
-  async listar(): Promise<Pedido[]> {
-    return PedidoModel.find({ deletedAt: null })
+  async listar(queryProps?: any): Promise<Pedido[]> {
+    if(queryProps.deletedAt) delete queryProps.deletedAt
+    return PedidoModel.find({ deletedAt: null, ...queryProps }).populate('cliente').populate({path: 'itens', populate: 'item'})
   }
 
   async deletar({ _id }: DeletarProps): Promise<boolean> {
@@ -67,13 +68,6 @@ export class PedidoMongoRepository implements Repository<Pedido> {
   }
 
   async editar({ _id, item }: EditarProps<Pedido>): Promise<Pedido> {
-    const isUnique = await this.isUnique({
-      props: Object.entries(item).map(([key, value]) => {
-        return { prop: key, value }
-      }),
-      ignoreId: _id,
-    })
-    if (!isUnique) throw new RegistroExistenteException({ mensagem: "Já existe um item com os parâmetros informados" })
     const query = {
       query: {
         _id,
@@ -81,6 +75,11 @@ export class PedidoMongoRepository implements Repository<Pedido> {
     }
     const _pedido = await this.buscarUm(query)
     if (!_pedido) throw new RegistroInexistenteException({ campo: "id" })
+    await this.validarForeignKeys(item)
+    if (!item.valor || isNaN(item.valor)) {
+      item.valor = item.calcularValor()
+    }
+
     await PedidoModel.updateOne({ _id }, item)
     return this.buscarUm(query)
   }
@@ -90,7 +89,7 @@ export class PedidoMongoRepository implements Repository<Pedido> {
     if (!props.query?.deletedAt) {
       props.query.deletedAt = null
     }
-    return PedidoModel.findOne(props.query)
+    return PedidoModel.findOne(props.query).populate('cliente').populate({path: 'itens', populate: 'item'})
   }
 
   async isUnique(props: IsUniqueManyProps): Promise<boolean> {

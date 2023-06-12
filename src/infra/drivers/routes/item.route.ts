@@ -7,7 +7,7 @@ const router = express.Router()
 const apiController = ApiController.Instance
 
 router.get("/", (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  return response(apiController.itemController.listar(), res, next)
+  return response(apiController.itemController.listar(req.query), res, next)
 })
 
 router.get("/:id", (req: express.Request, res: express.Response, next: express.NextFunction) => {
