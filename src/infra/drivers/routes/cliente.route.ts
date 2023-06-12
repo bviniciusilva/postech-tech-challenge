@@ -10,6 +10,10 @@ router.get("/", (req: express.Request, res: express.Response, next: express.Next
   return response(apiController.clienteController.listar(), res, next)
 })
 
+router.get("/cpf/:cpf", (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  return response(apiController.clienteController.buscarCPF(req.params.cpf), res, next)
+})
+
 router.get("/:id", (req: express.Request, res: express.Response, next: express.NextFunction) => {
   return response(apiController.clienteController.buscarUm(req.params.id), res, next)
 })

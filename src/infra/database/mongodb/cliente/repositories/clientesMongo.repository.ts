@@ -10,7 +10,6 @@ export class ClienteMongoRepository implements Repository<Cliente> {
 
   async listar(): Promise<Cliente[]> {
     return ClienteModel.find({deletedAt: null})
-    //   return ClienteMemoriaRepository.clientes.filter(i => !i.deletedAt);
   }
 
   async deletar({ _id }: DeletarProps): Promise<boolean> {
@@ -62,8 +61,7 @@ export class ClienteMongoRepository implements Repository<Cliente> {
     if (item._id && cliente) throw new RegistroExistenteException({})
     item._id = new mongoose.Types.ObjectId()
     const _item = await ClienteModel.create(item)
-    // @ts-ignore
-    return _item
+    return this.buscarUm({query: {_id: _item._id}})
   }
 
   async editar({ _id, item }: EditarProps<Cliente>): Promise<Cliente> {
@@ -79,7 +77,8 @@ export class ClienteMongoRepository implements Repository<Cliente> {
   }
 
   async buscarUm(props: BuscarUmProps): Promise<Cliente | null> {
-    if(!props.query.deletedAt) {
+    if(!props.query) props.query = {};
+    if (!props.query?.deletedAt) {
       props.query.deletedAt = null;
     }
     return ClienteModel.findOne(props.query)

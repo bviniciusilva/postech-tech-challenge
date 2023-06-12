@@ -53,8 +53,9 @@ export class ItemMongoRepository implements Repository<Item> {
   }
 
   async buscarUm(props: BuscarUmProps): Promise<Item | null> {
+    if(!props.query) props.query = {};
     if (!props.query?.deletedAt) {
-      props.query.deletedAt = null
+      props.query.deletedAt = null;
     }
     return ItemModel.findOne(props.query)
   }

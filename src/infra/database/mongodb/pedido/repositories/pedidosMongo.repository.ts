@@ -28,15 +28,15 @@ export class PedidoMongoRepository implements Repository<Pedido> {
     item.cliente = cliente
     const mapItens: PedidoItemProps[] = []
     for (let index = 0; index < item.itens.length; index++) {
-        const i = item.itens[index];
-        const _item = await this.itemRepository.buscarUm({ query: { _id: i.item._id } })
-        if (!_item) throw new RegistroInexistenteException({ mensagem: `Item com id ${i.item._id} não encontrado` })
-        mapItens.push({
-          item: _item,
-          qtd: i.qtd,
-        })
+      const i = item.itens[index]
+      const _item = await this.itemRepository.buscarUm({ query: { _id: i.item._id } })
+      if (!_item) throw new RegistroInexistenteException({ mensagem: `Item com id ${i.item._id} não encontrado` })
+      mapItens.push({
+        item: _item,
+        qtd: i.qtd,
+      })
     }
-    item.itens = mapItens;
+    item.itens = mapItens
     return
   }
 
@@ -86,7 +86,8 @@ export class PedidoMongoRepository implements Repository<Pedido> {
   }
 
   async buscarUm(props: BuscarUmProps): Promise<Pedido | null> {
-    if (!props.query.deletedAt) {
+    if (!props.query) props.query = {}
+    if (!props.query?.deletedAt) {
       props.query.deletedAt = null
     }
     return PedidoModel.findOne(props.query)
