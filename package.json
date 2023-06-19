@@ -5,14 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "nodemon src/index.ts",
-    "dev": "nodemon src/infra/drivers/server.ts"
+    "dev": "cross-env NODE_ENV=development nodemon src/index.ts",
+    "start": "cross-env NODE_ENV=production nodemon src/infra/drivers/server.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
     "joi": "^17.9.2",

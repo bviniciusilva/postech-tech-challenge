@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 async function bootstrap() {
-  if(config.NODE_ENV == 'production') {
+  if(config.NODE_ENV == 'production' || config.NODE_ENV == 'debug') {
     const client = new MongoConnection({
       database: config.mongo.MONGO_DATABASE,
       user: config.mongo.MONGO_USER,
