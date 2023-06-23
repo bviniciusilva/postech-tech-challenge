@@ -4,6 +4,10 @@ import { ClienteMongoRepository } from "@infra/database/mongodb/cliente/reposito
 import { ItemMongoRepository } from "@infra/database/mongodb/item/repositories/itensMongo.repository"
 import { PedidoController } from "@domain/pedido/controllers/PedidoController"
 import { PedidoMongoRepository } from "@infra/database/mongodb/pedido/repositories/pedidosMongo.repository"
+import config from "@shared/config";
+import { ClienteMemoriaRepository } from "src/infra/database/memory/cliente/repositories/clientesMemoria.repository"
+import { ItemMemoriaRepository } from "src/infra/database/memory/item/repositories/itemMemoria.repository"
+import { PedidoMemoriaRepository } from "src/infra/database/memory/pedido/repositories/pedidosMemoria.repository"
 
 export class ApiController {
   private static instance: ApiController
@@ -12,9 +16,15 @@ export class ApiController {
   pedidoController: PedidoController
 
   constructor() {
-    const clienteRepo = new ClienteMongoRepository()
-    const itemRepo = new ItemMongoRepository()
-    const pedidoRepo = new PedidoMongoRepository(clienteRepo, itemRepo)
+    let clienteRepo = new ClienteMemoriaRepository();
+    let itemRepo = new ItemMemoriaRepository();
+    let pedidoRepo = new PedidoMemoriaRepository()
+    if(config.NODE_ENV == 'production' || config.NODE_ENV == 'debug') {
+      clienteRepo = new ClienteMongoRepository()
+      // @ts-ignore
+      itemRepo = new ItemMongoRepository()
+      pedidoRepo = new PedidoMongoRepository(clienteRepo, itemRepo)
+    }
     this.clienteController = new ClienteController(clienteRepo)
     this.itemController = new ItemController(itemRepo)
     this.pedidoController = new PedidoController(pedidoRepo)
