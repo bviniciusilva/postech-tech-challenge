@@ -12,7 +12,7 @@ Este projeto utiliza a arquitetura hexagonal e é escrito em TypeScript.
 1. Clone este repositório em sua máquina:
 
    ```shell
-   git clone https://github.com/seu-usuario/tech-challenge-post-tech-fiap.git
+   git clone https://github.com/andre-luiz1997/tech-challenge-post-tech-fiap.git
     cd tech-challenge-post-tech-fiap
     npm install
    ```
