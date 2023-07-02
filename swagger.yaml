@@ -1,0 +1,333 @@
+openapi: 3.0.0
+info:
+  title: PosTech
+  description: Rotas para a API da PosTech
+  version: 1.0.0
+paths:
+  /clientes:
+    get:
+      summary: Listar todos os clientes
+      tags:
+        - Cliente
+      responses:
+        200:
+          description: Success
+        401:
+          description: Unauthorized
+        422:
+          description: Unprocessable Content
+    post:
+      summary: Criar um novo cliente
+      tags:
+        - Cliente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                cpf:
+                  type: string
+      responses:
+        "200":
+          description: Success
+        "401":
+          description: Unauthorized
+        "422":
+          description: Unprocessable Content
+  /clientes/{uuid}:
+    parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: integer
+        required: true
+        description: ID
+    get:
+      summary: Buscar um cliente pelo ID
+      tags:
+        - Cliente
+      responses:
+        200:
+          description: Success
+        401:
+          description: Unauthorized
+        422:
+          description: Unprocessable Content
+    patch:
+      summary: Atualizar um cliente pelo ID
+      tags:
+        - Cliente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                cpf:
+                  type: string
+      responses:
+        "200":
+          description: Success
+        "401":
+          description: Unauthorized
+        "422":
+          description: Unprocessable Content
+    delete:
+      summary: Deletar um cliente pelo ID
+      tags:
+        - Cliente
+      responses:
+        200:
+          description: Success
+        401:
+          description: Unauthorized
+        422:
+          description: Unprocessable Content
+  /clientes/cpf/{cpf}:
+    get:
+      summary: Listar um cliente pelo CPF
+      tags:
+        - Cliente
+      parameters:
+        - in: path
+          name: cpf
+          schema:
+            type: string
+          required: true
+          description: CPF
+      responses:
+        200:
+          description: Success
+        401:
+          description: Unauthorized
+        422:
+          description: Unprocessable Content
+  /itens:
+    get:
+      summary: Listar todos os itens
+      tags:
+        - Item
+      responses:
+        200:
+          description: Success
+        401:
+          description: Unauthorized
+        422:
+          description: Unprocessable Content
+    post:
+      summary: Criar um novo item
+      tags:
+        - Item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tipo:
+                  type: string
+                medida:
+                  type: string
+                nome:
+                  type: string
+                aceitaOpcional:
+                  type: boolean
+                preco:
+                  type: number
+      responses:
+        "200":
+          description: Success
+        "401":
+          description: Unauthorized
+        "422":
+          description: Unprocessable Content
+  /itens/{uuid}:
+    parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: integer
+        required: true
+        description: ID
+    get:
+      summary: Buscar item pelo ID
+      tags:
+        - Item
+      responses:
+        200:
+          description: Success
+        401:
+          description: Unauthorized
+        422:
+          description: Unprocessable Content
+    patch:
+      summary: Atualizar um item pelo ID
+      tags:
+        - Item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tipo:
+                  type: string
+                medida:
+                  type: string
+                nome:
+                  type: string
+                aceitaOpcional:
+                  type: boolean
+                preco:
+                  type: number
+      responses:
+        "200":
+          description: Success
+        "401":
+          description: Unauthorized
+        "422":
+          description: Unprocessable Content
+    delete:
+      summary: Deletar um item pelo ID
+      tags:
+        - Item
+      responses:
+        200:
+          description: Success
+        401:
+          description: Unauthorized
+        422:
+          description: Unprocessable Content
+  /itens-por-categoria:
+    get:
+      summary: Listar itens por categoria
+      tags:
+        - Item
+      parameters:
+        - in: query
+          name: tipo
+          schema:
+            type: string
+          required: true
+          description: Categoria
+      responses:
+        200:
+          description: Success
+        401:
+          description: Unauthorized
+        422:
+          description: Unprocessable Content
+  /pedidos:
+    get:
+      summary: Listar todos os pedidos
+      tags:
+        - Pedido
+      responses:
+        200:
+          description: Success
+        401:
+          description: Unauthorized
+        422:
+          description: Unprocessable Content
+    post:
+      summary: Criar um novo pedido
+      tags:
+        - Pedido
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cliente:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                itens:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      item:
+                        type: object
+                        properties:
+                          _id:
+                            type: string
+                      qtd:
+                        type: integer
+                status:
+                  type: string
+      responses:
+        "200":
+          description: Success
+        "401":
+          description: Unauthorized
+        "422":
+          description: Unprocessable Content
+  /pedidos/{uuid}:
+    parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: integer
+        required: true
+        description: ID
+    patch:
+      summary: Atualizar um pedido pelo ID
+      tags:
+        - Pedido
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cliente:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                itens:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      item:
+                        type: object
+                        properties:
+                          _id:
+                            type: string
+                      qtd:
+                        type: integer
+                status:
+                  type: string
+      responses:
+        "200":
+          description: Success
+        "401":
+          description: Unauthorized
+        "422":
+          description: Unprocessable Content
+    delete:
+      summary: Deletar um pedido pelo ID
+      tags:
+        - Pedido
+      responses:
+        200:
+          description: Success
+        401:
+          description: Unauthorized
+        422:
+          description: Unprocessable Content
