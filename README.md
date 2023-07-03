@@ -42,3 +42,6 @@ Para iniciar o servidor Express:
 Copy code
 npm run dev
 ```
+
+## Swagger
+- Abrir o navegador em [localhost](http://localhost/)
