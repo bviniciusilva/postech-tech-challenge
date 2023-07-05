@@ -4,7 +4,7 @@ info:
   description: Rotas para a API da PosTech
   version: 1.0.0
 servers:
-  - url: http://localhost:3001
+  - url: http://localhost:3000
     description: Sandbox
 paths:
   /clientes:
@@ -15,10 +15,11 @@ paths:
       responses:
         200:
           description: Success
-        401:
-          description: Unauthorized
-        422:
-          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Cliente" }
     post:
       summary: Criar um novo cliente
       tags:
@@ -35,18 +36,24 @@ paths:
                 cpf:
                   type: string
       responses:
-        "200":
+        200:
           description: Success
-        "401":
-          description: Unauthorized
-        "422":
-          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cliente"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /clientes/{uuid}:
     parameters:
       - in: path
         name: uuid
         schema:
-          type: integer
+          type: string
         required: true
         description: ID
     get:
@@ -56,10 +63,10 @@ paths:
       responses:
         200:
           description: Success
-        401:
-          description: Unauthorized
-        422:
-          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cliente"
     patch:
       summary: Atualizar um cliente pelo ID
       tags:
@@ -76,12 +83,18 @@ paths:
                 cpf:
                   type: string
       responses:
-        "200":
+        200:
           description: Success
-        "401":
-          description: Unauthorized
-        "422":
-          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cliente"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     delete:
       summary: Deletar um cliente pelo ID
       tags:
@@ -89,10 +102,6 @@ paths:
       responses:
         200:
           description: Success
-        401:
-          description: Unauthorized
-        422:
-          description: Unprocessable Content
   /clientes/cpf/{cpf}:
     get:
       summary: Listar um cliente pelo CPF
@@ -108,10 +117,16 @@ paths:
       responses:
         200:
           description: Success
-        401:
-          description: Unauthorized
-        422:
-          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cliente"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /itens:
     get:
       summary: Listar todos os itens
@@ -127,10 +142,11 @@ paths:
       responses:
         200:
           description: Success
-        401:
-          description: Unauthorized
-        422:
-          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Item" }
     post:
       summary: Criar um novo item
       tags:
@@ -153,12 +169,18 @@ paths:
                 preco:
                   type: number
       responses:
-        "200":
+        200:
           description: Success
-        "401":
-          description: Unauthorized
-        "422":
-          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Item"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /itens/{uuid}:
     parameters:
       - in: path
@@ -174,10 +196,10 @@ paths:
       responses:
         200:
           description: Success
-        401:
-          description: Unauthorized
-        422:
-          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Item"
     patch:
       summary: Atualizar um item pelo ID
       tags:
@@ -200,12 +222,18 @@ paths:
                 preco:
                   type: number
       responses:
-        "200":
+        200:
           description: Success
-        "401":
-          description: Unauthorized
-        "422":
-          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Item"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     delete:
       summary: Deletar um item pelo ID
       tags:
@@ -213,10 +241,6 @@ paths:
       responses:
         200:
           description: Success
-        401:
-          description: Unauthorized
-        422:
-          description: Unprocessable Content
   /pedidos:
     get:
       summary: Listar todos os pedidos
@@ -225,10 +249,11 @@ paths:
       responses:
         200:
           description: Success
-        401:
-          description: Unauthorized
-        422:
-          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Pedido" }
     post:
       summary: Criar um novo pedido
       tags:
@@ -260,12 +285,18 @@ paths:
                 status:
                   type: string
       responses:
-        "200":
+        200:
           description: Success
-        "401":
-          description: Unauthorized
-        "422":
-          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pedido"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /pedidos/{uuid}:
     parameters:
       - in: path
@@ -305,12 +336,18 @@ paths:
                 status:
                   type: string
       responses:
-        "200":
+        200:
           description: Success
-        "401":
-          description: Unauthorized
-        "422":
-          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pedido"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     delete:
       summary: Deletar um pedido pelo ID
       tags:
@@ -318,7 +355,71 @@ paths:
       responses:
         200:
           description: Success
-        401:
-          description: Unauthorized
-        422:
-          description: Unprocessable Content
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        mensagem:
+          type: string
+          description: Mensagem de erro
+    Cliente:
+      type: object
+      properties:
+        nome:
+          type: string
+          description: Nome do cliente
+        cpf:
+          type: string
+          description: CPF do cliente
+        _id:
+          type: string
+          description: ID do cliente
+        createdAt:
+          type: string
+          description: Data de criação do cliente
+        updatedAt:
+          type: string
+          description: Data de atualização do cliene
+    Item:
+      type: object
+      properties:
+        tipo:
+          type: string
+          description: Tipo do item
+        medida:
+          type: string
+          description: Medido do item
+        nome:
+          type: string
+          description: Nome do item
+        aceitaOpcional:
+          type: boolean
+          description: Opcional do item
+        preco:
+          type: number
+          description: Preço do item
+    Pedido:
+      type: object
+      properties:
+        cliente:
+          type: object
+          properties:
+            id:
+              type: string
+          description: Cliente do pedido
+        itens:
+          type: array
+          items:
+            type: object
+            properties:
+              item:
+                type: object
+                properties:
+                  _id:
+                    type: string
+              qtd:
+                type: number
+        status:
+          type: string
+          description: Status do pedido
