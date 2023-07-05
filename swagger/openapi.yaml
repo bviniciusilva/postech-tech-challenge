@@ -3,6 +3,9 @@ info:
   title: PosTech
   description: Rotas para a API da PosTech
   version: 1.0.0
+servers:
+  - url: http://localhost:3001
+    description: Sandbox
 paths:
   /clientes:
     get:
