@@ -2,12 +2,21 @@
 
 Este projeto utiliza a arquitetura hexagonal e é escrito em TypeScript.
 
-## Pré-requisitos
+## Docker
+Para iniciar o projeto utilizando a configuração deixada no Dockerfile
+Já com o Docker instalado na máquina, abra um terminal e insira o seguinte comando:
+```
+docker-compose up
+```
+
+
+## Instalação sem Docker
+### Pré-requisitos
 
 - Node.js (versão X.X.X)
 - NPM (versão X.X.X)
 
-## Instalação
+### Instalação
 
 1. Clone este repositório em sua máquina:
 
@@ -17,7 +26,7 @@ Este projeto utiliza a arquitetura hexagonal e é escrito em TypeScript.
     npm install
    ```
 
-## Scripts Disponíveis
+### Scripts Disponíveis
 
 - test: Executa os testes unitários utilizando Jest.
 - start: Inicia o repositório em memória utilizando o arquivo src/index.ts.
@@ -25,7 +34,7 @@ Este projeto utiliza a arquitetura hexagonal e é escrito em TypeScript.
 
 Certifique-se de ter as dependências instaladas antes de executar os scripts.
 
-### Uso
+#### Uso
 
 Para executar o projeto, utilize um dos seguintes comandos:
 
@@ -43,5 +52,6 @@ Copy code
 npm run dev
 ```
 
-## Swagger
+### Swagger
 - Abrir o navegador em [localhost](http://localhost/)
+
