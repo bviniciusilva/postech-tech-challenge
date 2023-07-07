@@ -6,7 +6,8 @@ Este projeto utiliza a arquitetura hexagonal e é escrito em TypeScript.
 Para iniciar o projeto utilizando a configuração deixada no Dockerfile
 Já com o Docker instalado na máquina, abra um terminal e insira o seguinte comando:
 ```
-docker-compose up
+docker-compose
+docker-compose -f .\docker-compose.yaml up
 ```
 
 
