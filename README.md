@@ -2,22 +2,32 @@
 
 Este projeto utiliza a arquitetura hexagonal e é escrito em TypeScript.
 
-## Pré-requisitos
+## Docker
+Para iniciar o projeto utilizando a configuração deixada no Dockerfile
+Já com o Docker instalado na máquina, abra um terminal e insira o seguinte comando:
+```
+docker-compose
+docker-compose -f .\docker-compose.yaml up
+```
+
+
+## Instalação sem Docker
+### Pré-requisitos
 
 - Node.js (versão X.X.X)
 - NPM (versão X.X.X)
 
-## Instalação
+### Instalação
 
 1. Clone este repositório em sua máquina:
 
    ```shell
-   git clone https://github.com/seu-usuario/tech-challenge-post-tech-fiap.git
+   git clone https://github.com/andre-luiz1997/tech-challenge-post-tech-fiap.git
     cd tech-challenge-post-tech-fiap
     npm install
    ```
 
-## Scripts Disponíveis
+### Scripts Disponíveis
 
 - test: Executa os testes unitários utilizando Jest.
 - start: Inicia o repositório em memória utilizando o arquivo src/index.ts.
@@ -25,7 +35,7 @@ Este projeto utiliza a arquitetura hexagonal e é escrito em TypeScript.
 
 Certifique-se de ter as dependências instaladas antes de executar os scripts.
 
-### Uso
+#### Uso
 
 Para executar o projeto, utilize um dos seguintes comandos:
 
@@ -42,3 +52,7 @@ Para iniciar o servidor Express:
 Copy code
 npm run dev
 ```
+
+### Swagger
+- Abrir o navegador em [localhost](http://localhost/)
+

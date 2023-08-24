@@ -5,9 +5,12 @@ import routes from "./routes";
 import MongoConnection from "../database/mongodb/adapters/MongoConnection";
 
 const PORT = config.PORT || 3000;
+var cors = require('cors');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.use(cors());
 
 async function bootstrap() {
   if(config.NODE_ENV == 'production' || config.NODE_ENV == 'debug') {
