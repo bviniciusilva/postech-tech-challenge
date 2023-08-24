@@ -19,8 +19,6 @@ export class CadastrarClienteUseCase implements UseCase<CadastrarClienteDto, Out
         if(props.cpf) props.cpf = sanitizar(props.cpf);
 
         const item = new Cliente(props);
-        console.log("🚀 ~ file: cadastrarCliente.usecase.ts:22 ~ CadastrarClienteUseCase ~ execute ~ item:", item)
-
         return this.repository.criar({item});
     }
 

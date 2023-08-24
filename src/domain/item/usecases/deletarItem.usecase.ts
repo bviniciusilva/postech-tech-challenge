@@ -1,8 +1,6 @@
 import { Repository } from "@shared/ports/repository";
 import { UseCase } from "@shared/ports/usecase";
-import { DtoValidationException } from "@shared/exceptions/dtoValidationError.exception";
-import { Item, ItemProps } from "@domain/item/entities/item";
-import { RegistroInexistenteException } from "@shared/exceptions/registroInexistente.exception";
+import { Item } from "@domain/item/entities/item";
 
 interface DeletarItemDto {
   _id: string;

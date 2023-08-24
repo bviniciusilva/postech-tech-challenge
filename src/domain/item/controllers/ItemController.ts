@@ -1,11 +1,14 @@
 import { Repository } from "@shared/ports/repository"
 import { Item, ItemProps } from "@domain/item/entities/item"
 import { EditarItemUseCase } from "../usecases/editarItem.usecase";
+import { CadastrarItemUseCase } from "../usecases/cadastrarItem.usecase";
 
 export class ItemController {
-  private readonly cadastrarUseCase: EditarItemUseCase;
+  private readonly cadastrarItemUseCase: CadastrarItemUseCase;
+  private readonly editarItemUseCase: EditarItemUseCase;
   constructor(private readonly repository: Repository<Item>) {
-    this.cadastrarUseCase = new EditarItemUseCase(this.repository)
+    this.cadastrarItemUseCase = new CadastrarItemUseCase(this.repository)
+    this.editarItemUseCase = new EditarItemUseCase(this.repository)
   }
 
   async listar(queryProps?: Object) {
@@ -21,12 +24,11 @@ export class ItemController {
   }
 
   async criar(body: ItemProps) {
-    return this.cadastrarUseCase.execute(body)
+    return this.cadastrarItemUseCase.execute(body)
   }
 
   async editar(_id: string, body: ItemProps) {
-    const item = new Item(body)
-    return this.repository.editar({ _id, item })
+    return this.editarItemUseCase.execute({_id, props: body})
   }
 
   async deletar(_id: string) {
