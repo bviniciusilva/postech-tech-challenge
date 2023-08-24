@@ -2,7 +2,7 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import config from "@shared/config";
 import routes from "./routes";
-import MongoConnection from "../database/mongodb/adapters/MongoConnection";
+import {MongoConnection} from "../database/mongodb/adapters/MongoConnection";
 
 const PORT = config.PORT || 3000;
 var cors = require('cors');
@@ -19,6 +19,7 @@ async function bootstrap() {
       user: config.mongo.MONGO_USER,
       password: config.mongo.MONGO_PW,
       port: +config.mongo.MONGO_PORT,
+      host: config.mongo.MONGO_HOST
     });
     await client.connect();
   }

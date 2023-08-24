@@ -12,7 +12,7 @@ import { ItemMongoRepository } from "./infra/database/mongodb/item/repositories/
 import config from "@shared/config"
 
 const isMemoryDatabase = config.NODE_ENV == "production" || config.NODE_ENV == "debug"
-
+console.log({isMemoryDatabase})
 let clientesRepository: Repository<Cliente>
 let itensRepository: Repository<Item>
 
@@ -33,9 +33,7 @@ async function bootstrapMemoryDatabase() {
 }
 
 async function bootstrapMongoDatabase() {
-  clientesRepository = new ClienteMongoRepository()
-  itensRepository = new ItemMongoRepository()
-
+  console.log(config)
   const client = new MongoConnection({
     user: config.mongo.MONGO_USER,
     password: config.mongo.MONGO_PW,
@@ -44,6 +42,8 @@ async function bootstrapMongoDatabase() {
     port: +config.mongo.MONGO_PORT,
   })
   await client.connect()
+  clientesRepository = new ClienteMongoRepository()
+  itensRepository = new ItemMongoRepository()
 }
 
 // SEEDERS =======================================================================

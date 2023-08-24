@@ -1,5 +1,6 @@
 import mongoose, { MongooseOptions, mongo } from "mongoose";
 import Connection, { ConnectionProps } from "src/shared/ports/connection";
+import { emptyToUndefined } from "src/shared/utils";
 
 export class MongoConnection implements Connection {
   connection: typeof mongoose;
@@ -7,9 +8,6 @@ export class MongoConnection implements Connection {
   private connectionString: string;
 
   constructor(props: ConnectionProps) {
-    Object.entries(props).forEach(([key, value]) => {
-      if(!value) throw new Error(`Missing ${key} in connection props`);
-    })
     this.props = props;
     this.configure();
   }
@@ -19,11 +17,12 @@ export class MongoConnection implements Connection {
   }
 
   private createConnectionString() {
-    this.connectionString = `mongodb://${this.props.user ?? ""}${
+    let userString = `${this.props.user ?? ""}${
       this.props.password ? ":" + this.props.password : ""
-    }`;
-    if (this.props.user) {
-      this.connectionString += "@";
+    }@`;
+    this.connectionString = `mongodb://`;
+    if (emptyToUndefined(this.props.user)) {
+      this.connectionString += userString;
     }
     this.connectionString += `${this.props.host}:${this.props.port}/${this.props.database}`;
   }

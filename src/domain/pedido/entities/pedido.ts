@@ -1,7 +1,6 @@
 import { ClienteProps } from "src/domain/cliente/entities/cliente"
 import { ItemProps } from "src/domain/item/entities/item"
 import { DefaultClass } from "src/shared/types/defaultClass"
-import { v4 as uuid } from "uuid"
 
 export const statusPedidos = ["aberto", "cancelado", "aguardandoPagamento", "pago", "emPreparacao", "entregue"]
 export type StatusPedido = (typeof statusPedidos)[number]
@@ -23,19 +22,13 @@ export class Pedido extends DefaultClass implements PedidoProps {
   _id?: any
   cliente: ClienteProps
   itens: PedidoItemProps[]
-  status: string
+  status: StatusPedido
   valor?: number;
 
   constructor(props: PedidoProps) {
     super()
     Object.assign(this, props)
     this.valor = this.calcularValor();
-  }
-
-  generateId() {
-    if (!this._id) {
-      this._id = uuid()
-    }
   }
 
   calcularValor() {
