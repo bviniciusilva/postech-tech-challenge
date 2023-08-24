@@ -1,14 +1,15 @@
 import mongoose, { MongooseOptions, mongo } from "mongoose";
 import Connection, { ConnectionProps } from "src/shared/ports/connection";
 
-export default class MongoConnection implements Connection {
+export class MongoConnection implements Connection {
   connection: typeof mongoose;
   props: ConnectionProps;
   private connectionString: string;
 
   constructor(props: ConnectionProps) {
-    if (!props.host) props.host = "127.0.0.1";
-    if (!props.port) props.port = 27017;
+    Object.entries(props).forEach(([key, value]) => {
+      if(!value) throw new Error(`Missing ${key} in connection props`);
+    })
     this.props = props;
     this.configure();
   }

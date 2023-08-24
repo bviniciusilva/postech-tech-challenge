@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv'
 import { emptyToUndefined } from '../utils';
-dotenv.config()
+dotenv.config({path: '../../../.env'})
 
 export default {
   NODE_ENV: emptyToUndefined(process.env.NODE_ENV),
@@ -10,5 +10,6 @@ export default {
     MONGO_PW: emptyToUndefined(process.env.MONGO_PW),
     MONGO_DATABASE: emptyToUndefined(process.env.MONGO_DATABASE),
     MONGO_PORT: emptyToUndefined(process.env.MONGO_PORT),
+    MONGO_HOST: emptyToUndefined(process.env.MONGO_HOST),
   },
 };
