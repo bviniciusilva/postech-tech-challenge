@@ -3,10 +3,12 @@ const router = express.Router();
 import clienteRoutes from "./cliente.route";
 import itensRoutes from "./item.route";
 import pedidosRoutes from "./pedido.route";
+import pagamentosRoutes from "./pagamento.route";
 
 router.use('/clientes',clienteRoutes);
 router.use('/itens',itensRoutes);
 router.use('/pedidos',pedidosRoutes);
+router.use('/pagamentos',pagamentosRoutes);
 
 // 404
 router.use(function (req, res) {

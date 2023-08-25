@@ -28,11 +28,14 @@ export interface CriarProps<T> {
     item: T
 }
 
-export interface Repository<T> {
+export interface BaseRepository<T> {
     criar(props: CriarProps<T>): Promise<T>;
-    editar(props: EditarProps<T>): Promise<T>;
-    buscarUm(props: BuscarUmProps): Promise<T | null>;
     listar(queryProps?: Object): Promise<T[]>;
+    buscarUm(props: BuscarUmProps): Promise<T | null>;
+}
+
+export interface Repository<T> extends BaseRepository<T> {
+    editar(props: EditarProps<T>): Promise<T>;
     isUnique?(props: IsUniqueProps | IsUniqueManyProps): Promise<boolean>;
     deletar(props: DeletarProps): Promise<boolean>;
 }
