@@ -433,6 +433,149 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "PAGAMENTO",
+			"item": [
+				{
+					"name": "WEBHOOK",
+					"item": [
+						{
+							"name": "listar",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/webhooks",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"webhooks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "criar",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"url\": \"localhost:4223/webhook\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/webhooks",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"webhooks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deletar",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/webhooks/64ebaf8be66e639d9e2efdb4",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"webhooks",
+										"64ebaf8be66e639d9e2efdb4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "buscar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/pagamentos/64eb59ac8b309a14a8c70cbc",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"pagamentos",
+								"64eb59ac8b309a14a8c70cbc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/pagamentos/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"pagamentos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "processar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pedido\": {\r\n        \"_id\": \"64ebb7aeb9ab57c289c69c72\"\r\n    },\r\n    \"valorPago\": 40,\r\n    \"formaPagamento\": \"dinheiro\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/pagamentos/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"pagamentos",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
