@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose, { AggregateOptions, PipelineStage } from "mongoose"
 import {
   BuscarUmProps,
   CriarProps,
@@ -9,13 +9,28 @@ import {
   Repository,
 } from "@shared/ports/repository"
 import { RegistroExistenteException } from "@shared/exceptions/registroExistente.exception"
-import { Pedido, PedidoItemProps } from "@domain/pedido/entities/pedido"
+import { Pedido, PedidoItemProps, statusPedidos } from "@domain/pedido/entities/pedido"
 import { RegistroInexistenteException } from "@shared/exceptions/registroInexistente.exception"
 import { PedidoModel } from "@infra/database/mongodb/pedido/models/pedido.mongo"
 import { Cliente } from "@domain/cliente/entities/cliente"
 import { Item } from "@domain/item/entities/item"
 
 export class PedidoMongoRepository implements Repository<Pedido> {
+  private ordemPipeline: PipelineStage[] = [
+    {
+      $addFields: {
+        statusOrder: {
+          $indexOfArray: [statusPedidos.reverse(), "$status"]
+        }
+      }
+    },
+    {
+      $sort: {
+        statusOrder: 1
+      }
+    }
+  ]
+
   constructor(
     private readonly clienteRepository: Repository<Cliente>,
     private readonly itemRepository: Repository<Item>
@@ -42,7 +57,47 @@ export class PedidoMongoRepository implements Repository<Pedido> {
 
   async listar(queryProps?: any): Promise<Pedido[]> {
     if(queryProps.deletedAt) delete queryProps.deletedAt
-    return PedidoModel.find({ deletedAt: null, ...queryProps }).populate('cliente').populate({path: 'itens', populate: 'item'})
+    return PedidoModel
+    .aggregate([
+      {
+        $match: { deletedAt: null, ...queryProps }
+      },
+      {
+        $lookup: {
+          from: 'clientes',
+          localField: 'cliente',
+          foreignField: '_id',
+          as: 'cliente'
+        }
+      },
+      // {
+      //   $unwind: '$cliente'
+      // },
+      // {
+      //   $lookup: {
+      //     from: 'itens',
+      //     localField: 'itens',
+      //     foreignField: '_id',
+      //     as: 'itens'
+      //   }
+      // },
+      // {
+      //   $unwind: '$itens'
+      // },
+      {
+        $lookup: {
+          from: 'itens',
+          localField: 'itens',
+          foreignField: '_id',
+          as: 'itens'
+        }
+      },
+      // {
+      //   $unwind: '$itens.item'
+      // },
+      ...this.ordemPipeline
+    ])
+    // return PedidoModel.find({ deletedAt: null, ...queryProps }).populate('cliente').populate({path: 'itens', populate: 'item'})
   }
 
   async deletar({ _id }: DeletarProps): Promise<boolean> {

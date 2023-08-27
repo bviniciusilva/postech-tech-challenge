@@ -13,6 +13,10 @@ import { PagamentosMongoRepository } from "src/infra/database/mongodb/pagamento/
 import { PagamentoController } from "src/domain/pagamento/controllers/PagamentoController"
 import GatewayPagamento from "src/domain/pagamento/ports/gatewayPagamento"
 import { GatewayPagamentoMock } from "src/domain/pagamento/adapters/gatewayPagamentoMock.adapter"
+import { WebhookController } from "src/domain/webhook/controllers/WebhookController"
+import { WebhooksMongoRepository } from "src/infra/database/mongodb/pagamento/repositories/webhookMongoRepository.repository"
+import { WebhookMemoriaRepository } from "src/infra/database/memory/pagamento/repositories/webhookMemoria.repository"
+import { WebhookGatewayAdapter, WebhookGatewayType } from "src/domain/webhook/adapters/gatewayWebhook.adapter"
 
 export class ApiController {
   private static instance: ApiController
@@ -21,24 +25,31 @@ export class ApiController {
   pedidoController: PedidoController
   pagamentoController: PagamentoController
   gateway: GatewayPagamento
+  webhookController: WebhookController
+  webhookGateway: WebhookGatewayAdapter
 
   constructor() {
     let clienteRepo = new ClienteMemoriaRepository();
     let itemRepo = new ItemMemoriaRepository();
     let pedidoRepo = new PedidoMemoriaRepository()
     let pagamentosRepo = new PagamentoMemoriaRepository();
+    let webhookRepo = new WebhookMemoriaRepository();
+    let webhookGateway = WebhookGatewayType.GatewayWebhookMock;
     if(config.NODE_ENV == 'production' || config.NODE_ENV == 'debug') {
       clienteRepo = new ClienteMongoRepository()
       // @ts-ignore
       itemRepo = new ItemMongoRepository()
       pedidoRepo = new PedidoMongoRepository(clienteRepo, itemRepo)
       pagamentosRepo = new PagamentosMongoRepository(pedidoRepo);
+      webhookRepo = new WebhooksMongoRepository(pedidoRepo);
     }
+    this.webhookGateway = new WebhookGatewayAdapter(webhookGateway, webhookRepo);
     this.clienteController = new ClienteController(clienteRepo)
     this.itemController = new ItemController(itemRepo)
     this.pedidoController = new PedidoController(pedidoRepo)
     this.gateway = new GatewayPagamentoMock(pedidoRepo, pagamentosRepo);
-    this.pagamentoController = new PagamentoController(pagamentosRepo, pedidoRepo, this.gateway)
+    this.pagamentoController = new PagamentoController(pagamentosRepo, pedidoRepo, this.gateway, this.webhookGateway)
+    this.webhookController = new WebhookController(webhookRepo, this.webhookGateway)
   }
 
   public static get Instance() {

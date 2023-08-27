@@ -38,5 +38,5 @@ export default abstract class GatewayPagamento {
   ) {}
   props: GatewayProps
   abstract processar(props: PagamentoProps): Promise<OutputProps>;
-  abstract consultar(_id: string): Promise<Pagamento>;
+  abstract consultar(_id: string): Promise<OutputProps>;
 }

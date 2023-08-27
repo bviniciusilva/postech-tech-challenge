@@ -20,8 +20,8 @@ export class GatewayPagamentoMock extends GatewayPagamento {
     }
   }
 
-  consultar(_id: string): Promise<Pagamento> {
-    throw new Error("Method not implemented.")
+  async consultar(_id: string): Promise<OutputProps> {
+    return this.sendRequest();
   }
 
   private async sendRequest() {

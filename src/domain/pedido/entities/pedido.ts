@@ -2,7 +2,7 @@ import { ClienteProps } from "src/domain/cliente/entities/cliente"
 import { ItemProps } from "src/domain/item/entities/item"
 import { DefaultClass } from "src/shared/types/defaultClass"
 
-export const statusPedidos = ["aberto", "cancelado", "aguardandoPagamento", "pago", "emPreparacao", "entregue"]
+export const statusPedidos = ["aberto", "cancelado", "aguardandoPagamento", "pago", "emPreparacao", "pronto", "entregue"]
 export type StatusPedido = (typeof statusPedidos)[number]
 
 export interface PedidoItemProps {

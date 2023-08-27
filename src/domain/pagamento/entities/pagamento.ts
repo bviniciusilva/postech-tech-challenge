@@ -39,6 +39,9 @@ export class Pagamento extends DefaultClass implements PagamentoProps {
     validar() {
         this.validarCampos();
         if(!this.status) this.status = "pendente"
+        if(!formasPagamento.includes(this.formaPagamento)) throw new Error("Forma de pagamento inválida");
+        if(this.valorPago > this.valor) throw new Error("Valor pago não pode ser maior que o valor do pagamento")
+        if(this.valorPago < this.valor) throw new Error(`Valor pago não pode ser menor que o valor do pedido: R$${formatToCurrency(this.valor)}`);
         return;
     }
     
@@ -46,8 +49,5 @@ export class Pagamento extends DefaultClass implements PagamentoProps {
         if(!this.pedido) throw new Error("Pedido não informado")
         if(!this.valor) throw new Error("Valor não informado")
         if(!this.formaPagamento) throw new Error("Forma de pagamento não informada")
-        if(!formasPagamento.includes(this.formaPagamento)) throw new Error("Forma de pagamento inválida");
-        if(this.valorPago > this.valor) throw new Error("Valor pago não pode ser maior que o valor do pagamento")
-        if(this.valorPago < this.valor) throw new Error(`Valor pago não pode ser menor que o valor do pedido: R$${formatToCurrency(this.valor)}`);
     }
 }

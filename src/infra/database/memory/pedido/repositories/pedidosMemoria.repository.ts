@@ -1,7 +1,7 @@
 import { BuscarUmProps, CriarProps, DeletarProps, EditarProps, Repository } from "@shared/ports/repository"
 import { Cliente } from "@domain/cliente/entities/cliente"
 import { RegistroInexistenteException } from "@shared/exceptions/registroInexistente.exception"
-import { Pedido } from "src/domain/pedido/entities/pedido"
+import { Pedido, statusPedidos } from "src/domain/pedido/entities/pedido"
 import { DtoValidationException } from "src/shared/exceptions/dtoValidationError.exception"
 
 export class PedidoMemoriaRepository implements Repository<Pedido> {
@@ -13,7 +13,13 @@ export class PedidoMemoriaRepository implements Repository<Pedido> {
   }
 
   async listar(): Promise<Pedido[]> {
-    return PedidoMemoriaRepository.pedidos.filter((i) => !i.deletedAt)
+    const statuses = [...statusPedidos].reverse();
+    return PedidoMemoriaRepository.pedidos.filter((i) => !i.deletedAt).sort((pedidoA, pedidoB) => {
+      const indiceA = statuses.indexOf(pedidoA.status);
+      const indiceB = statuses.indexOf(pedidoB.status);
+      
+      return indiceA - indiceB;
+  });
   }
 
   async deletar({ _id }: DeletarProps): Promise<boolean> {
