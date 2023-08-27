@@ -1,3 +1,3 @@
 import { PagamentoProps } from "../entities/pagamento";
 
-export interface RealizarPagamentoDto extends PagamentoProps {}
+export interface PagamentoDto extends PagamentoProps {}

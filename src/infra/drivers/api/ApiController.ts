@@ -11,6 +11,8 @@ import { PedidoMemoriaRepository } from "src/infra/database/memory/pedido/reposi
 import { PagamentoMemoriaRepository } from "src/infra/database/memory/pagamento/repositories/pagamentosMemoria.repository"
 import { PagamentosMongoRepository } from "src/infra/database/mongodb/pagamento/repositories/pagamentosMongo.repository"
 import { PagamentoController } from "src/domain/pagamento/controllers/PagamentoController"
+import GatewayPagamento from "src/domain/pagamento/ports/gatewayPagamento"
+import { GatewayPagamentoMock } from "src/domain/pagamento/adapters/gatewayPagamentoMock.adapter"
 
 export class ApiController {
   private static instance: ApiController
@@ -18,6 +20,7 @@ export class ApiController {
   itemController: ItemController
   pedidoController: PedidoController
   pagamentoController: PagamentoController
+  gateway: GatewayPagamento
 
   constructor() {
     let clienteRepo = new ClienteMemoriaRepository();
@@ -34,7 +37,8 @@ export class ApiController {
     this.clienteController = new ClienteController(clienteRepo)
     this.itemController = new ItemController(itemRepo)
     this.pedidoController = new PedidoController(pedidoRepo)
-    this.pagamentoController = new PagamentoController(pagamentosRepo)
+    this.gateway = new GatewayPagamentoMock(pedidoRepo, pagamentosRepo);
+    this.pagamentoController = new PagamentoController(pagamentosRepo, pedidoRepo, this.gateway)
   }
 
   public static get Instance() {

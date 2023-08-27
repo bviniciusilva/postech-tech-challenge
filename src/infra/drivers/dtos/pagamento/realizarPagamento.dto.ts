@@ -8,28 +8,18 @@ const pedidoSchema = Joi.object({
   _id: Joi.any().required(),
 }).required()
 
-export class PagamentoDTO implements PagamentoDto {
-  _id?: any
-  pedido: PedidoProps
-  valor: number
-  valorPago?: number
-  status: string
-  formaPagamento: string
-  
+export class RealizarPagamentoDTO implements RealizarPagamentoDTO {
   static schema = Joi.object({
     pedido: pedidoSchema,
-    valor: Joi.number().min(0).required(),
-    valorPago: Joi.number().min(0).optional(),
+    valor: Joi.number().min(0).optional(),
+    valorPago: Joi.number().min(0).required(),
     formaPagamento: Joi.string()
-      .optional()
-      .valid(...formasPagamento),
-    status: Joi.string()
       .required()
-      .valid(...statusPagamento),
+      .valid(...formasPagamento)
   })
 
   static validate(req: any, res: any, next: any): boolean {
-    const dto = new DTO(PagamentoDTO.schema)
+    const dto = new DTO(RealizarPagamentoDTO.schema)
     return dto.validate(req, res, next)
   }
 }

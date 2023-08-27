@@ -1,8 +1,9 @@
-import { BaseRepository, BuscarUmProps, CriarProps } from "@shared/ports/repository"
+import { BaseRepository, BuscarUmProps, CriarProps, DeletarProps, EditarProps, Repository } from "@shared/ports/repository"
 import { DtoValidationException } from "src/shared/exceptions/dtoValidationError.exception"
 import { Pagamento } from "src/domain/pagamento/entities/pagamento"
+import { RegistroInexistenteException } from "src/shared/exceptions/registroInexistente.exception"
 
-export class PagamentoMemoriaRepository implements BaseRepository<Pagamento> {
+export class PagamentoMemoriaRepository implements Repository<Pagamento> {
   private static instance: PagamentoMemoriaRepository
   private static pagamentos: Pagamento[] = []
 
@@ -32,5 +33,22 @@ export class PagamentoMemoriaRepository implements BaseRepository<Pagamento> {
         return hasValue
       }) ?? null
     )
+  }
+
+  async deletar({ _id }: DeletarProps): Promise<boolean> {
+    const item = await this.buscarUm({ query: { _id } })
+    if (!item) throw new RegistroInexistenteException({ campo: "id" })
+    item.deletedAt = new Date()
+    return true
+  }
+
+  async editar({ _id, item }: EditarProps<Pagamento>): Promise<Pagamento> {
+    const itemIndex = PagamentoMemoriaRepository.pagamentos.findIndex((_item) => _item._id == item._id)
+    if (itemIndex < 0) throw new RegistroInexistenteException({})
+    let cliente = PagamentoMemoriaRepository.pagamentos[itemIndex]
+    Object.entries(item).forEach(([key, value]) => {
+      cliente[key] = value
+    })
+    return PagamentoMemoriaRepository.pagamentos[itemIndex]
   }
 }

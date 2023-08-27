@@ -3,6 +3,10 @@ import {
   BaseRepository,
   BuscarUmProps,
   CriarProps,
+  DeletarProps,
+  EditarProps,
+  IsUniqueManyProps,
+  IsUniqueProps,
   Repository,
 } from "@shared/ports/repository"
 import { Pedido } from "@domain/pedido/entities/pedido"
@@ -10,8 +14,37 @@ import { RegistroInexistenteException } from "@shared/exceptions/registroInexist
 import { Pagamento } from "src/domain/pagamento/entities/pagamento"
 import { PagamentoModel } from "../models/pagamento.mongo"
 
-export class PagamentosMongoRepository implements BaseRepository<Pagamento> {
+export class PagamentosMongoRepository implements Repository<Pagamento> {
   constructor(private readonly pedidoRepository: Repository<Pedido>) {}
+
+  async editar({ _id, item }: EditarProps<Pagamento>): Promise<Pagamento> {
+    const query = {
+      query: {
+        _id,
+      },
+    }
+    const _pedido = await this.buscarUm(query)
+    if (!_pedido) throw new RegistroInexistenteException({ campo: "id" })
+    await this.validarForeignKeys(item)
+    if (!item.valor || isNaN(item.valor)) {
+      item.valor = item.calcularValor()
+    }
+
+    await PagamentoModel.updateOne({ _id }, item)
+    return this.buscarUm(query)
+  }
+
+  async isUnique?(props: IsUniqueProps | IsUniqueManyProps): Promise<boolean> {
+    return true
+  }
+
+  async deletar({ _id }: DeletarProps): Promise<boolean> {
+    const item = await this.buscarUm({ query: { _id } })
+    if (!item) throw new RegistroInexistenteException({ campo: "id" })
+    item.deletedAt = new Date()
+    await PagamentoModel.updateOne({ _id }, item)
+    return true
+  }
 
   private async validarForeignKeys(item: Pagamento) {
     const pedido = await this.pedidoRepository.buscarUm({ query: { _id: item.pedido._id } })
@@ -23,8 +56,7 @@ export class PagamentosMongoRepository implements BaseRepository<Pagamento> {
 
   async listar(queryProps?: any): Promise<Pagamento[]> {
     if (queryProps.deletedAt) delete queryProps.deletedAt
-    return PagamentoModel.find({ deletedAt: null, ...queryProps })
-      .populate("pedido")
+    return PagamentoModel.find({ deletedAt: null, ...queryProps }).populate("pedido")
   }
 
   async criar({ item }: CriarProps<Pagamento>): Promise<Pagamento> {
