@@ -12,9 +12,12 @@ export class PedidoMemoriaRepository implements Repository<Pedido> {
     return this.instance || (this.instance = new this())
   }
 
-  async listar(): Promise<Pedido[]> {
+  async listar(queryProps?: any): Promise<Pedido[]> {
     const statuses = [...statusPedidos].reverse();
-    return PedidoMemoriaRepository.pedidos.filter((i) => !i.deletedAt).sort((pedidoA, pedidoB) => {
+    return PedidoMemoriaRepository.pedidos.filter((item) => {
+      const filtro = !queryProps || queryProps.status == null || item.status === queryProps.status;
+      return !item.deletedAt && filtro;
+    }).sort((pedidoA, pedidoB) => {
       const indiceA = statuses.indexOf(pedidoA.status);
       const indiceB = statuses.indexOf(pedidoB.status);
       
@@ -37,7 +40,7 @@ export class PedidoMemoriaRepository implements Repository<Pedido> {
   }
 
   async editar({ _id, item }: EditarProps<Pedido>): Promise<Pedido> {
-    const itemIndex = PedidoMemoriaRepository.pedidos.findIndex((_item) => _item._id == item._id)
+    const itemIndex = PedidoMemoriaRepository.pedidos.findIndex((_item) => _item._id == _id)
     if (itemIndex < 0) throw new RegistroInexistenteException({})
     let cliente = PedidoMemoriaRepository.pedidos[itemIndex]
     Object.entries(item).forEach(([key, value]) => {
