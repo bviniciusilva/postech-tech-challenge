@@ -13,6 +13,7 @@ export class ClienteController {
 
   constructor(private readonly repository: Repository<Cliente>) {
     this.cadastrarUseCase = new CadastrarClienteUseCase(this.repository)
+    this.editarUseCase = new EditarClienteUseCase(this.repository)
   }
 
   async listar() {

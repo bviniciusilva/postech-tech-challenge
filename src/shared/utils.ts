@@ -6,12 +6,13 @@ export const emptyToUndefined = (str: any) => {
 }
 
 export const sanitizar = (str: string) => {
-  return str.replace(/[.-/]/g, "")
+  return str.replace(/\D/g, "")
 }
 
 export const isCPFValido = (cpf: string): boolean => {
   // Removendo caracteres não numéricos
   cpf = cpf.replace(/\D/g, "")
+  cpf = sanitizar(cpf)
 
   // Verificando se o CPF possui 11 dígitos
   if (cpf.length !== 11) {
