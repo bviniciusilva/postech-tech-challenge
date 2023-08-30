@@ -74,7 +74,7 @@ export class ClienteMemoriaRepository implements Repository<Cliente> {
   }
 
   async editar({ _id, item }: EditarProps<Cliente>): Promise<Cliente> {
-    const itemIndex = ClienteMemoriaRepository.clientes.findIndex((_item) => _item._id == item._id)
+    const itemIndex = ClienteMemoriaRepository.clientes.findIndex((_item) => _item._id == _id)
     if (itemIndex < 0) throw new RegistroInexistenteException({})
     let cliente = ClienteMemoriaRepository.clientes[itemIndex]
     Object.entries(item).forEach(([key, value]) => {
