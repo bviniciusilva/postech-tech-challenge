@@ -70,32 +70,32 @@ export class PedidoMongoRepository implements Repository<Pedido> {
           as: 'cliente'
         }
       },
-      // {
-      //   $unwind: '$cliente'
-      // },
-      // {
-      //   $lookup: {
-      //     from: 'itens',
-      //     localField: 'itens',
-      //     foreignField: '_id',
-      //     as: 'itens'
-      //   }
-      // },
-      // {
-      //   $unwind: '$itens'
-      // },
+      {
+        $unwind: '$itens'
+      },
       {
         $lookup: {
-          from: 'itens',
-          localField: 'itens',
+          from: 'items',
+          localField: 'itens.item',
           foreignField: '_id',
-          as: 'itens'
+          as: 'itens.item'
         }
       },
-      // {
-      //   $unwind: '$itens.item'
-      // },
-      ...this.ordemPipeline
+      {
+        $unwind: '$itens.item'
+      },
+      {
+        $group: {
+          _id: '$_id',
+          cliente: { $first: '$cliente' },
+          status: {$first: '$status'},
+          valor: {$first: '$valor'},
+          itens: {
+            $push: '$itens'
+          }
+        }
+      },
+      ...this.ordemPipeline,
     ])
     // return PedidoModel.find({ deletedAt: null, ...queryProps }).populate('cliente').populate({path: 'itens', populate: 'item'})
   }
