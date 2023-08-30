@@ -18,8 +18,11 @@ export class ItemMemoriaRepository implements Repository<Item> {
     return this.instance || (this.instance = new this())
   }
 
-  async listar(): Promise<Item[]> {
-    return ItemMemoriaRepository.itens.filter((i) => !i.deletedAt)
+  async listar(queryProps?: any): Promise<Item[]> {
+    return ItemMemoriaRepository.itens.filter((item) => {
+      const filtro = !queryProps || queryProps.tipo == null || item.tipo === queryProps.tipo;
+      return !item.deletedAt && filtro;
+    });
   }
 
   async deletar({ _id }: DeletarProps): Promise<boolean> {
@@ -47,7 +50,7 @@ export class ItemMemoriaRepository implements Repository<Item> {
   }
 
   async editar({ _id, item }: EditarProps<Item>): Promise<Item> {
-    const itemIndex = ItemMemoriaRepository.itens.findIndex((_item) => _item._id == item._id)
+    const itemIndex = ItemMemoriaRepository.itens.findIndex((_item) => _item._id == _id)
     if (itemIndex < 0) throw new RegistroInexistenteException({})
     let _item = ItemMemoriaRepository.itens[itemIndex]
     _item.updatedAt = new Date()
