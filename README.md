@@ -45,7 +45,7 @@
 
 :heavy_check_mark: Realizar pedidos
 
-## Como rodar a aplicação :arrow_forward
+## Como rodar a aplicação :arrow_forward:
 
 ## Pré requisitos com Docker
 
