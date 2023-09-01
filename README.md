@@ -80,8 +80,7 @@ kubectl apply -f .\hpa.yaml
 
 ## Pré requisitos com Node
 
-:warning: [Node.js](https://nodejs.org/en/download)
-:warning: [NPM](https://www.npmjs.com/)
+:warning: [Node.js](https://nodejs.org/en/download) | [NPM](https://www.npmjs.com/)
 
 ### Instalação
 
