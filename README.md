@@ -68,6 +68,9 @@ docker-compose up -d
 
 Para rodar o kubernetes, dentro do diretorio digite:
 
+O servidor estará escutando na porta 80;
+O banco de dados estará escutando na porta 27000
+
 ```shell
 kubectl apply -f .\opaque.yaml      
 kubectl apply -f .\svc-db.yaml     
