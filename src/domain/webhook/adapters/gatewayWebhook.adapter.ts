@@ -21,7 +21,6 @@ export class WebhookGatewayAdapter extends WebhookGateway {
       default:
         throw new Error("Tipo de gateway inválido.")
     }
-    this.initQueue()
   }
 
   fire(method: WebhookMethod, props: any): void {
