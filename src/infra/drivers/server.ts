@@ -12,6 +12,14 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
+function configureRoutes() {
+  app.use(routes);
+  
+  app.listen(PORT, () => {
+    console.log(`Server escutando na porta ${PORT}`);
+  });
+}
+
 async function bootstrap() {
   if(config.NODE_ENV == 'production' || config.NODE_ENV == 'debug') {
     const client = new MongoConnection({
@@ -21,13 +29,9 @@ async function bootstrap() {
       port: +config.mongo.MONGO_PORT,
       host: config.mongo.MONGO_HOST
     });
-    await client.connect();
+    return client.connect().then(() => configureRoutes())
   }
-  app.use(routes);
-
-  app.listen(PORT, () => {
-    console.log(`Server escutando na porta ${PORT}`);
-  });
+  return configureRoutes();
 }
 
 bootstrap();
