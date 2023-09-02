@@ -23,7 +23,7 @@
 
 * [Pré-requisitos(Docker)](#pré-requisitos-com-docker)
 
-* [Pré-requisitos(Kubernates)](#pré-requisitos-kubernates)
+* [Pré-requisitos(Kubernetes)](#pré-requisitos-kubernetes)
 
 * [Pré-requisitos(Node)](#pré-requisitos-com-node)
 
@@ -64,9 +64,9 @@ ou apenas:
 docker-compose up -d
 ```
 
-## Pré requisitos Kubernates
+## Pré requisitos Kubernetes
 
-Para rodar o kubernates, dentro do diretorio digite:
+Para rodar o kubernetes, dentro do diretorio digite:
 
 ```shell
 kubectl apply -f .\opaque.yaml      
