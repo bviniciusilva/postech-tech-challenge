@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: pod-api-pos-tech
-          image: bviniciusilva/api-pos-tech-start:v18
+          image: bviniciusilva/api-pos-tech-start:v23
           ports:
             - containerPort: 3000
           env: 
